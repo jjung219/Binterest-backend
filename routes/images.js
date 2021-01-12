@@ -1,10 +1,21 @@
 const router = require('express').Router();
 let Image = require('../models/image.model');
-const AlbumImage = require('../models/album_image.model');
 
 router.route('/').get((req, res) => {
   Image.find()
     .then(images => res.json(images))
+    .catch(err => res.status(400).json(err));
+});
+
+router.route('/:id').get((req, res) => {
+  Image.findById(req.params.id)
+    .then(images => res.json(images))
+    .catch(err => res.status(400).json(err));
+});
+
+router.route('/:id').delete((req, res) => {
+  Image.findByIdAndDelete(req.params.id)
+    .then(() => res.json('Image Removed'))
     .catch(err => res.status(400).json(err));
 });
 
